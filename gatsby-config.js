@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby Default Starter`,
@@ -30,5 +34,20 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+          // This type will contain remote schema Query type
+          typeName: "DatoCMS",
+          // This is field under which it's accessible
+          fieldName: "dato",
+          // Url to query from
+          url: "https://graphql.datocms.com/",
+          headers: {
+              // Learn about environment variables: https://gatsby.dev/env-vars
+              Authorization: `bearer ${process.env.GATSBY_DATOCMS_READONLY_TOKEN}`,
+          },
+      },
+    },
   ],
 }
